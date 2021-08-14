@@ -39,8 +39,8 @@ def get_config(project = '', mode = '', config_ = '', data = '', LRS = '', batch
 
     # data dir
     config.data = 'DVD' # 'nah'
-    config.data_offset = '/data1/junyonglee/video_deblur'
-    # config.data_offset = 'datasets/video_deblur'
+    # config.data_offset = '/data1/junyonglee/video_deblur'
+    config.data_offset = 'datasets/video_deblur'
     config.data_path = None
     config.input_path = None
     config.gt_path = None
@@ -53,7 +53,7 @@ def get_config(project = '', mode = '', config_ = '', data = '', LRS = '', batch
 
     # log dirs
     config.LOG_DIR = edict()
-    log_offset = '/Jarvis/logs/junyonglee'
+    log_offset = '/logs/junyonglee'
     offset = os.path.join(log_offset, config.project)
     offset = os.path.join(offset, '{}'.format(mode))
     config.LOG_DIR.offset = offset

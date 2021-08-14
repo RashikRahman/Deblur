@@ -16,7 +16,7 @@ from models.networks import get_generator
 class Predictor:
     def __init__(self, weights_path: str, model_name: str = ''):
         with open('config/config.yaml') as cfg:
-            config = yaml.load(cfg)
+            config = yaml.load(cfg, Loader=yaml.FullLoader)
         model = get_generator(model_name or config['model'])
         model.load_state_dict(torch.load(weights_path)['model'])
         self.model = model.cuda()
@@ -92,7 +92,7 @@ def main(img_pattern: str,
          mask_pattern: Optional[str] = None,
          weights_path='best_fpn.h5',
          out_dir='submit/',
-         side_by_side: bool = False,
+         side_by_side: bool = True,
          video: bool = False):
     def sorted_glob(pattern):
         return sorted(glob(pattern))
@@ -114,8 +114,7 @@ def main(img_pattern: str,
             if side_by_side:
                 pred = np.hstack((img, pred))
             pred = cv2.cvtColor(pred, cv2.COLOR_RGB2BGR)
-            cv2.imwrite(os.path.join(out_dir, name),
-                        pred)
+            cv2.imwrite(os.path.join(out_dir, name), pred)
     else:
         process_video(pairs, predictor, out_dir)
 

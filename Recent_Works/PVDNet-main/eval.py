@@ -66,7 +66,7 @@ def eval_quan_qual(config):
     mode = 'quanti_quali'
     network, save_path_root_deblur, save_path_root_deblur_score, ckpt_name,\
     blur_folder_path_list, blur_file_path_list, gt_file_path_list = init(config, mode)
-
+    # print(save_path_root_deblur)
     ##
     total_norm = 0
     total_itr_time = 0
@@ -78,6 +78,7 @@ def eval_quan_qual(config):
         video_name = blur_folder_path_list[i].split(os.sep)[-2]
         print('[Reading Frames: {}][{}/{}]'.format(video_name, i + 1, len(blur_file_path_list)))
         for frame_name in blur_file_path_list[i]:
+            # print('###################################',frame_name)
             frame = refine_image(read_frame(frame_name), config.refine_val)
             frame = np.expand_dims(frame.transpose(0, 3, 1, 2), 0)
             frame_list.append(frame)
@@ -155,17 +156,22 @@ def eval_quan_qual(config):
                 Path(save_path_deblur).mkdir(parents=True, exist_ok=True)
 
                 Path(os.path.join(save_path_deblur, 'input', video_name)).mkdir(parents=True, exist_ok=True)
+                
                 save_file_path_deblur_input = os.path.join(save_path_deblur, 'input', video_name, '{}.{}'.format(frame_name_no_ext, iformat))
-                vutils.save_image(inp, '{}'.format(save_file_path_deblur_input), nrow=1, padding = 0, normalize = False)
+                # vutils.save_image(inp, '{}'.format(save_file_path_deblur_input), nrow=1, padding = 0, normalize = False)
+                vutils.save_image(inp, 'logs/{}_db_in.png'.format(j), nrow=1, padding = 0, normalize = False)
 
                 Path(os.path.join(save_path_deblur, 'output', video_name)).mkdir(parents=True, exist_ok=True)
                 save_file_path_deblur_output = os.path.join(save_path_deblur, 'output', video_name, '{}.{}'.format(frame_name_no_ext, iformat))
-                vutils.save_image(output, '{}'.format(save_file_path_deblur_output), nrow=1, padding = 0, normalize = False)
+                # vutils.save_image(output, '{}'.format(save_file_path_deblur_output), nrow=1, padding = 0, normalize = False)
+                vutils.save_image(output, 'logs/{}_db_out.png'.format(j), nrow=1, padding = 0, normalize = False)
 
                 if gt_file_path_list is not None:
                     Path(os.path.join(save_path_deblur, 'gt', video_name)).mkdir(parents=True, exist_ok=True)
                     save_file_path_deblur_gt = os.path.join(save_path_deblur, 'gt', video_name, '{}.{}'.format(frame_name_no_ext, iformat))
-                    vutils.save_image(gt, '{}'.format(save_file_path_deblur_gt), nrow=1, padding = 0, normalize = False)
+                    # vutils.save_image(gt, '{}'.format(save_file_path_deblur_gt), nrow=1, padding = 0, normalize = False)
+                    vutils.save_image(gt, 'logs/{}_db_gt.png'.format(j), nrow=1, padding = 0, normalize = False)
+
 
 
         # video average
